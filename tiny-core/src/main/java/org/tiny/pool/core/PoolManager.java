@@ -6,4 +6,10 @@ package org.tiny.pool.core;
  * @date 2021-04-07 19:57
  */
 public class PoolManager {
+
+    public void test(){
+        new Thread(()->{
+           System.out.println("yes");
+        }).start();
+    }
 }
