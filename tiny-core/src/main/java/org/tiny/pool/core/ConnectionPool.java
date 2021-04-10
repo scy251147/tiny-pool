@@ -2,8 +2,7 @@ package org.tiny.pool.core;
 
 import org.apache.commons.pool2.impl.GenericObjectPool;
 import org.apache.commons.pool2.impl.GenericObjectPoolConfig;
-
-import java.util.function.Supplier;
+import org.tiny.pool.sdk.InstanceRenewl;
 
 /**
  * @author shichaoyang
@@ -32,8 +31,8 @@ public class ConnectionPool {
 
     public static class Builder{
 
-        public Builder(Supplier<Connection> supplier){
-            this.supplier = supplier;
+        public Builder(InstanceRenewl<Connection> newInstance){
+            this.newInstance = newInstance;
         }
 
         private int maxTotal;
@@ -44,7 +43,7 @@ public class ConnectionPool {
 
         private int maxWaitMillis;
 
-        private Supplier<Connection> supplier;
+        private InstanceRenewl<Connection> newInstance;
 
         private GenericObjectPool<Connection> genericObjectPool;
 
@@ -71,7 +70,7 @@ public class ConnectionPool {
         public ConnectionPool build() {
             try {
                 //连接实例
-                ConnectionFactory connectionFactory  = new ConnectionFactory(supplier);
+                ConnectionFactory connectionFactory  = new ConnectionFactory(newInstance);
                 //池化配置
                 GenericObjectPoolConfig<Connection> connectionPoolConfig = new GenericObjectPoolConfig();
                 if (this.maxTotal != 0) {
@@ -90,10 +89,19 @@ public class ConnectionPool {
 
     }
 
+    /**
+     * 从连接池中获取连接
+     * @return
+     * @throws Exception
+     */
     public Connection borrowConnection() throws Exception {
         return genericObjectPool.borrowObject();
     }
 
+    /**
+     * 将连接归还到连接池
+     * @param connection
+     */
     public void returnConnection(Connection connection) {
         genericObjectPool.returnObject(connection);
     }

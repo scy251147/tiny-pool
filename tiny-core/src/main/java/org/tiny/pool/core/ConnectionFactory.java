@@ -3,6 +3,8 @@ package org.tiny.pool.core;
 import org.apache.commons.pool2.BasePooledObjectFactory;
 import org.apache.commons.pool2.PooledObject;
 import org.apache.commons.pool2.impl.DefaultPooledObject;
+import org.tiny.pool.core.exception.TpInstanceNotCreateException;
+import org.tiny.pool.sdk.InstanceRenewl;
 
 import java.util.function.Consumer;
 import java.util.function.Supplier;
@@ -16,14 +18,14 @@ public class ConnectionFactory extends BasePooledObjectFactory<Connection> {
 
     /**
      * 带参构造
-     * @param supplier
+     * @param newInstance
      */
-    public ConnectionFactory(Supplier<Connection> supplier){
-        this.supplier = supplier;
+    public ConnectionFactory(InstanceRenewl<Connection> newInstance){
+        this.newInstance = newInstance;
     }
 
     //连接对象
-    private Supplier<Connection> supplier;
+    private InstanceRenewl<Connection> newInstance;
 
     /**
      * 创建连接实例
@@ -33,8 +35,10 @@ public class ConnectionFactory extends BasePooledObjectFactory<Connection> {
     @Override
     public Connection create() throws Exception {
         Connection connection = null;
-        if (supplier != null) {
-            connection = supplier.get();
+        if (newInstance != null) {
+            connection = newInstance.create();
+        } else {
+            throw new TpInstanceNotCreateException("connection instance creation should not be null");
         }
         return connection;
     }
