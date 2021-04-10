@@ -1,5 +1,6 @@
 package org.tiny.pool.core;
 
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.pool2.impl.GenericObjectPool;
 import org.apache.commons.pool2.impl.GenericObjectPoolConfig;
 import org.tiny.pool.sdk.InstanceRenewl;
@@ -9,6 +10,7 @@ import org.tiny.pool.sdk.InstanceRenewl;
  * @Description: 连接池
  * @date 2021-04-08 19:35
  */
+@Slf4j
 public class ConnectionPool {
 
     private ConnectionPool(Builder builder){
@@ -104,6 +106,12 @@ public class ConnectionPool {
      */
     public void returnConnection(Connection connection) {
         genericObjectPool.returnObject(connection);
+    }
+
+    public String monitorConnection(){
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append("idle connection count:").append(genericObjectPool.getNumIdle());
+        return stringBuilder.toString();
     }
 
 }

@@ -1,11 +1,9 @@
 package org.tiny.pool.test;
 
-import com.alibaba.fastjson.JSON;
 import org.junit.jupiter.api.Test;
 import org.tiny.pool.core.ConnectionPool;
 import org.tiny.pool.core.Connection;
 import org.tiny.pool.test.biz.NettyConnection;
-
 import java.util.HashSet;
 import java.util.Set;
 import java.util.concurrent.CountDownLatch;
@@ -48,7 +46,9 @@ public class InPoolTest {
             });
         }
         countDownLatch.await();
-        System.out.println("instance count:" + hashCodes.size() + "  instance list:" + JSON.toJSONString(hashCodes));
+        System.out.println("instance count:" + hashCodes.size() + "  instance list:" + hashCodes);
+
+        System.out.println(connectionPool.monitorConnection());
     }
 
 }
