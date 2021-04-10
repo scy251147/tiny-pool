@@ -2,7 +2,7 @@ package org.tiny.pool.test;
 
 import com.alibaba.fastjson.JSON;
 import org.junit.jupiter.api.Test;
-import org.tiny.pool.core.ConnectionPoolBuilder;
+import org.tiny.pool.core.ConnectionPool;
 import org.tiny.pool.core.Connection;
 
 import java.util.HashSet;
@@ -23,16 +23,10 @@ public class PoolTest {
     @Test
     public void test1() throws InterruptedException {
 
-//        //池化设置
-//        GenericObjectPoolConfig config = new GenericObjectPoolConfig();
-//        config.setMaxTotal(2);
-//        config.setMaxWaitMillis(3000);
-
         //池化实例
-        ConnectionPoolBuilder connectionPool = new ConnectionPoolBuilder()
+        ConnectionPool connectionPool = new ConnectionPool.Builder(()->new NettyConnectionProvider())
                 .setMaxTotal(2)
                 .setMaxIdle(3000)
-                .setInstance(()-> new NettyConnectionProvider())
                 .build();
 
         Set<Connection> hashCodes = new HashSet<>();
