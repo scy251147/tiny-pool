@@ -1,4 +1,4 @@
-package org.tiny.pool.core.provider;
+package org.tiny.pool.test;
 
 import org.tiny.pool.core.Connection;
 

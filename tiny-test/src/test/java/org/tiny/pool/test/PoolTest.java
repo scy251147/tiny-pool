@@ -1,11 +1,9 @@
 package org.tiny.pool.test;
 
 import com.alibaba.fastjson.JSON;
-import org.apache.commons.pool2.impl.GenericObjectPoolConfig;
 import org.junit.jupiter.api.Test;
 import org.tiny.pool.core.ConnectionPoolBuilder;
 import org.tiny.pool.core.Connection;
-import org.tiny.pool.core.provider.NettyConnectionProvider;
 
 import java.util.HashSet;
 import java.util.Set;

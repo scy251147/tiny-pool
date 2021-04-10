@@ -55,11 +55,7 @@ public class ConnectionPoolBuilder {
     public ConnectionPoolBuilder build() {
         try {
             //连接实例
-            ServiceLoader<Connection> serviceLoader = ServiceLoader.load(Connection.class);
-            ConnectionFactory connectionFactory = null;
-            for (Connection connection : serviceLoader) {
-                connectionFactory = new ConnectionFactory(supplier);
-            }
+            ConnectionFactory connectionFactory  = new ConnectionFactory(supplier);
             //池化配置
             GenericObjectPoolConfig<Connection> connectionPoolConfig = new GenericObjectPoolConfig();
             if (this.maxTotal != 0) {
