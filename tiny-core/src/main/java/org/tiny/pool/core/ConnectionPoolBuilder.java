@@ -4,6 +4,9 @@ import org.apache.commons.pool2.impl.GenericObjectPool;
 import org.apache.commons.pool2.impl.GenericObjectPoolConfig;
 
 import java.util.ServiceLoader;
+import java.util.function.Consumer;
+import java.util.function.Function;
+import java.util.function.Supplier;
 
 /**
  * @author shichaoyang
@@ -19,6 +22,8 @@ public class ConnectionPoolBuilder {
     private int minIdle;
 
     private int maxWaitMillis;
+
+    private Supplier<Connection> supplier;
 
     private GenericObjectPool<Connection> connectionPool;
 
@@ -42,13 +47,18 @@ public class ConnectionPoolBuilder {
         return this;
     }
 
+    public ConnectionPoolBuilder setInstance(Supplier<Connection> supplier){
+        this.supplier = supplier;
+        return this;
+    }
+
     public ConnectionPoolBuilder build() {
         try {
             //连接实例
             ServiceLoader<Connection> serviceLoader = ServiceLoader.load(Connection.class);
             ConnectionFactory connectionFactory = null;
             for (Connection connection : serviceLoader) {
-                connectionFactory = new ConnectionFactory(connection);
+                connectionFactory = new ConnectionFactory(supplier);
             }
             //池化配置
             GenericObjectPoolConfig<Connection> connectionPoolConfig = new GenericObjectPoolConfig();

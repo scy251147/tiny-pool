@@ -34,6 +34,7 @@ public class PoolTest {
         ConnectionPoolBuilder connectionPool = new ConnectionPoolBuilder()
                 .setMaxTotal(2)
                 .setMaxIdle(3000)
+                .setInstance(()-> new NettyConnectionProvider())
                 .build();
 
         Set<Connection> hashCodes = new HashSet<>();
