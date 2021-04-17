@@ -2,7 +2,7 @@ package org.tiny.pool.sdk;
 
 
 @FunctionalInterface
-public interface InstanceRenewl<T> {
+public interface CreateConnection<T> {
 
     /**
      * 创建connection的实例

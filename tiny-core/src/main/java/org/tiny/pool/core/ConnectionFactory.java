@@ -4,10 +4,7 @@ import org.apache.commons.pool2.BasePooledObjectFactory;
 import org.apache.commons.pool2.PooledObject;
 import org.apache.commons.pool2.impl.DefaultPooledObject;
 import org.tiny.pool.core.exception.TpInstanceNotCreateException;
-import org.tiny.pool.sdk.InstanceRenewl;
-
-import java.util.function.Consumer;
-import java.util.function.Supplier;
+import org.tiny.pool.sdk.CreateConnection;
 
 /**
  * @author shichaoyang
@@ -20,12 +17,12 @@ public class ConnectionFactory extends BasePooledObjectFactory<Connection> {
      * 带参构造
      * @param newInstance
      */
-    public ConnectionFactory(InstanceRenewl<Connection> newInstance){
+    public ConnectionFactory(CreateConnection<Connection> newInstance){
         this.newInstance = newInstance;
     }
 
     //连接对象
-    private InstanceRenewl<Connection> newInstance;
+    private CreateConnection<Connection> newInstance;
 
     /**
      * 创建连接实例

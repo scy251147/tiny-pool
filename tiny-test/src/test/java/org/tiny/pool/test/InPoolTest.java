@@ -3,6 +3,7 @@ package org.tiny.pool.test;
 import org.junit.jupiter.api.Test;
 import org.tiny.pool.core.ConnectionPool;
 import org.tiny.pool.core.Connection;
+import org.tiny.pool.core.ConnectionPoolConfig;
 import org.tiny.pool.test.biz.NettyConnection;
 import java.util.HashSet;
 import java.util.Set;
@@ -21,9 +22,8 @@ public class InPoolTest {
 
     @Test
     public void test1() throws InterruptedException {
-
         //池化实例
-        ConnectionPool connectionPool = new ConnectionPool.Builder(()->new NettyConnection())
+        ConnectionPool connectionPool =  ConnectionPool.Builder(()->new NettyConnection())
                 .setMaxTotal(2)
                 .setMaxIdle(3000)
                 .build();
