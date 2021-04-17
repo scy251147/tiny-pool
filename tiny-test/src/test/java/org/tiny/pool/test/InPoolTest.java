@@ -25,7 +25,8 @@ public class InPoolTest {
         //池化实例
         ConnectionPool connectionPool =  ConnectionPool.Builder(()->new NettyConnection())
                 .setMaxTotal(2)
-                .setMaxIdle(3000)
+                .setMaxIdle(2)
+                .setMinIdle(0)
                 .build();
 
         Set<Connection> hashCodes = new HashSet<>();
