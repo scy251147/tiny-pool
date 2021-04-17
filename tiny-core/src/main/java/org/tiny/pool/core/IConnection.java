@@ -5,7 +5,7 @@ package org.tiny.pool.core;
  * @Description: 连接
  * @date 2021-04-08 19:25
  */
-public interface Connection {
+public interface IConnection {
 
     /**
      * 连接远端

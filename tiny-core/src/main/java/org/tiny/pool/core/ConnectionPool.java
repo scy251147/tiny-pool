@@ -10,7 +10,7 @@ import org.tiny.pool.sdk.CreateConnection;
  * @date 2021-04-08 19:35
  */
 @Slf4j
-public class ConnectionPool {
+public class ConnectionPool implements IConnectionPool {
 
     /**
      * 带参构造
@@ -21,14 +21,14 @@ public class ConnectionPool {
     }
 
     //连接池实例
-    protected GenericObjectPool<Connection> poolInstance;
+    protected GenericObjectPool<IConnection> poolInstance;
 
     /**
      * 连接池构建
      * @param newInstance
      * @return
      */
-    public static ConnectionPoolBuilder Builder(CreateConnection<Connection> newInstance) {
+    public static ConnectionPoolBuilder Builder(CreateConnection<IConnection> newInstance) {
         return new ConnectionPoolBuilder(newInstance);
     }
 
@@ -37,8 +37,8 @@ public class ConnectionPool {
      * @return
      * @throws Exception
      */
-    public Connection borrowConnection() {
-        Connection connection = null;
+    public IConnection borrowConnection() {
+        IConnection connection = null;
         try {
             connection = poolInstance.borrowObject();
         } catch (Exception e) {
@@ -51,7 +51,7 @@ public class ConnectionPool {
      * 将连接归还到连接池
      * @param connection
      */
-    public void returnConnection(Connection connection) {
+    public void returnConnection(IConnection connection) {
         poolInstance.returnObject(connection);
     }
 
@@ -59,7 +59,7 @@ public class ConnectionPool {
      * 作废连接并从连接池移除
      * @param connection
      */
-    public void invalidateConnection(Connection connection) {
+    public void invalidateConnection(IConnection connection) {
         try {
             poolInstance.invalidateObject(connection);
         } catch (Exception e) {

@@ -1,7 +1,7 @@
 package org.tiny.pool.test;
 
 import org.junit.jupiter.api.Test;
-import org.tiny.pool.core.Connection;
+import org.tiny.pool.core.IConnection;
 import org.tiny.pool.test.biz.NettyConnection;
 
 import java.util.HashSet;
@@ -21,11 +21,11 @@ public class UnPoolTest {
 
     @Test
     public void test1() throws Exception {
-        Set<Connection> hashCodes = new HashSet<>();
+        Set<IConnection> hashCodes = new HashSet<>();
         CountDownLatch countDownLatch = new CountDownLatch(10);
         for (int i = 0; i < 10; i++) {
             executor.submit(() -> {
-                Connection connection = new NettyConnection();
+                IConnection connection = new NettyConnection();
                 hashCodes.add(connection);
                 countDownLatch.countDown();
             });

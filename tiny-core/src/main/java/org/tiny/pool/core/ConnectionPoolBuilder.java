@@ -18,7 +18,7 @@ public class ConnectionPoolBuilder {
      * 带参构造
      * @param connectionInstance
      */
-    public ConnectionPoolBuilder(CreateConnection<Connection> connectionInstance){
+    public ConnectionPoolBuilder(CreateConnection<IConnection> connectionInstance){
         this.connectionInstance = connectionInstance;
     }
 
@@ -26,10 +26,10 @@ public class ConnectionPoolBuilder {
     private ConnectionPoolConfig connectionPoolConfig = new ConnectionPoolConfig();
 
     //连接池中的连接实例创建方式
-    private CreateConnection<Connection> connectionInstance;
+    private CreateConnection<IConnection> connectionInstance;
 
     //连接池实例
-    private GenericObjectPool<Connection> poolInstance;
+    private GenericObjectPool<IConnection> poolInstance;
 
     /**
      * 设置连接池中最大的连接数
@@ -140,7 +140,7 @@ public class ConnectionPoolBuilder {
      * 获取连接池实例
      * @return
      */
-    public GenericObjectPool<Connection> getPoolInstance(){
+    public GenericObjectPool<IConnection> getPoolInstance(){
         return this.poolInstance;
     }
 
@@ -155,7 +155,7 @@ public class ConnectionPoolBuilder {
             ConnectionFactory connectionFactory = new ConnectionFactory(connectionInstance);
 
             //池化配置
-            GenericObjectPoolConfig<Connection> genericObjectPoolConfig = new GenericObjectPoolConfig();
+            GenericObjectPoolConfig<IConnection> genericObjectPoolConfig = new GenericObjectPoolConfig();
             genericObjectPoolConfig.setMaxTotal(connectionPoolConfig.getMaxTotal());
             genericObjectPoolConfig.setMaxIdle(connectionPoolConfig.getMaxIdle());
             genericObjectPoolConfig.setMinIdle(connectionPoolConfig.getMinIdle());
@@ -168,7 +168,7 @@ public class ConnectionPoolBuilder {
             genericObjectPoolConfig.setMinEvictableIdleTimeMillis(connectionPoolConfig.getMinEvictableIdleTimeMillis());
 
             //创建连接池
-            poolInstance = new GenericObjectPool<Connection>(connectionFactory, genericObjectPoolConfig);
+            poolInstance = new GenericObjectPool<IConnection>(connectionFactory, genericObjectPoolConfig);
         } catch (Exception e) {
             log.error("create connection pool error", e);
             throw new TpPoolCreateErrorException("create connection pool error");

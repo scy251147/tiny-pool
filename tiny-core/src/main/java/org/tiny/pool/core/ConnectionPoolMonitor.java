@@ -1,9 +1,6 @@
 package org.tiny.pool.core;
 
-import org.apache.commons.pool2.impl.DefaultPooledObjectInfo;
 import org.apache.commons.pool2.impl.GenericObjectPool;
-
-import java.util.Set;
 
 /**
  * @author shichaoyang
@@ -17,8 +14,8 @@ public class ConnectionPoolMonitor {
      *
      * @param connectionPool
      */
-    public static GenericObjectPool<Connection> tracePool(ConnectionPool connectionPool) {
-        GenericObjectPool<Connection> poolInstance = connectionPool.poolInstance;
+    public static GenericObjectPool<IConnection> tracePool(ConnectionPool connectionPool) {
+        GenericObjectPool<IConnection> poolInstance = connectionPool.poolInstance;
         return poolInstance;
     }
 

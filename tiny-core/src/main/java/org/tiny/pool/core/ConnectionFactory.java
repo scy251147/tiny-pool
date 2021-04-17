@@ -11,18 +11,18 @@ import org.tiny.pool.sdk.CreateConnection;
  * @Description: 连接工厂
  * @date 2021-04-08 19:32
  */
-public class ConnectionFactory extends BasePooledObjectFactory<Connection> {
+public class ConnectionFactory extends BasePooledObjectFactory<IConnection> {
 
     /**
      * 带参构造
      * @param newInstance
      */
-    public ConnectionFactory(CreateConnection<Connection> newInstance){
+    public ConnectionFactory(CreateConnection<IConnection> newInstance){
         this.newInstance = newInstance;
     }
 
     //连接对象
-    private CreateConnection<Connection> newInstance;
+    private CreateConnection<IConnection> newInstance;
 
     /**
      * 创建连接实例
@@ -30,8 +30,8 @@ public class ConnectionFactory extends BasePooledObjectFactory<Connection> {
      * @throws Exception
      */
     @Override
-    public Connection create() throws Exception {
-        Connection connection = null;
+    public IConnection create() throws Exception {
+        IConnection connection = null;
         if (newInstance != null) {
             connection = newInstance.create();
         } else {
@@ -46,7 +46,7 @@ public class ConnectionFactory extends BasePooledObjectFactory<Connection> {
      * @return
      */
     @Override
-    public PooledObject<Connection> wrap(Connection connection) {
+    public PooledObject<IConnection> wrap(IConnection connection) {
         return new DefaultPooledObject<>(connection);
     }
 }

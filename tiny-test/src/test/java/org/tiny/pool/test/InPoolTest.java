@@ -2,8 +2,7 @@ package org.tiny.pool.test;
 
 import org.junit.jupiter.api.Test;
 import org.tiny.pool.core.ConnectionPool;
-import org.tiny.pool.core.Connection;
-import org.tiny.pool.core.ConnectionPoolConfig;
+import org.tiny.pool.core.IConnection;
 import org.tiny.pool.core.ConnectionPoolMonitor;
 import org.tiny.pool.core.exception.TpPoolCreateErrorException;
 import org.tiny.pool.test.biz.NettyConnection;
@@ -31,13 +30,13 @@ public class InPoolTest {
                 .setMinIdle(0)
                 .build();
 
-        Set<Connection> hashCodes = new HashSet<>();
+        Set<IConnection> hashCodes = new HashSet<>();
         CountDownLatch countDownLatch = new CountDownLatch(10);
         for (int i = 0; i < 10; i++) {
             executor.submit(() -> {
                 try {
                     //从池子中拿出实例
-                    Connection connection = connectionPool.borrowConnection();
+                    IConnection connection = connectionPool.borrowConnection();
                     connection.connect("127.0.0.1", 6379);
                     //使用完毕，将实例归还池子
                     connectionPool.returnConnection(connection);
@@ -55,7 +54,7 @@ public class InPoolTest {
 
         System.out.println("--------------------");
 
-        Connection connection = connectionPool.borrowConnection();
+        IConnection connection = connectionPool.borrowConnection();
         connectionPool.invalidateConnection(connection);
         ConnectionPoolMonitor.traceState(connectionPool);
         ConnectionPoolMonitor.printAll(connectionPool);
