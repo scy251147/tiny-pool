@@ -2,6 +2,11 @@ package org.tiny.pool.core;
 
 import lombok.Data;
 
+/**
+ * @author shichaoyang
+ * @Description: 连接池config
+ * @date 2021-04-17 10:35
+ */
 @Data
 public class ConnectionPoolConfig {
 

@@ -1,11 +1,15 @@
 package org.tiny.pool.core;
 
-import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.pool2.impl.GenericObjectPool;
 import org.apache.commons.pool2.impl.GenericObjectPoolConfig;
 import org.tiny.pool.sdk.CreateConnection;
 
+/**
+ * @author shichaoyang
+ * @Description: 连接池builder
+ * @date 2021-04-17 09:35
+ */
 @Slf4j
 public class ConnectionPoolBuilder {
 
