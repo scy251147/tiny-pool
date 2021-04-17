@@ -12,11 +12,25 @@ import org.tiny.pool.sdk.CreateConnection;
 @Slf4j
 public class ConnectionPool {
 
+    /**
+     * 带参构造
+     * @param builder
+     */
     public ConnectionPool(ConnectionPoolBuilder builder){
         this.poolInstance = builder.getPoolInstance();
     }
 
+    //连接池实例
     private GenericObjectPool<Connection> poolInstance;
+
+    /**
+     * 连接池构建
+     * @param newInstance
+     * @return
+     */
+    public static ConnectionPoolBuilder Builder(CreateConnection<Connection> newInstance) {
+        return new ConnectionPoolBuilder(newInstance);
+    }
 
     /**
      * 从连接池中获取连接
@@ -34,15 +48,4 @@ public class ConnectionPool {
     public void returnConnection(Connection connection) {
         poolInstance.returnObject(connection);
     }
-
-    public String monitorConnection(){
-        StringBuilder stringBuilder = new StringBuilder();
-        stringBuilder.append("idle connection count:").append(poolInstance.getNumIdle());
-        return stringBuilder.toString();
-    }
-
-    public static ConnectionPoolBuilder Builder(CreateConnection<Connection> newInstance) {
-        return new ConnectionPoolBuilder(newInstance);
-    }
-
 }

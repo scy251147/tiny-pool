@@ -6,5 +6,5 @@ package org.tiny.pool.core;
  * @date 2021-04-17 11:05
  */
 public class ConnectionPoolMonitor {
-    
+
 }
