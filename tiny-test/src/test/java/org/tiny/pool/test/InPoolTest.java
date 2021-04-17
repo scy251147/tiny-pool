@@ -25,7 +25,7 @@ public class InPoolTest {
     @Test
     public void test1() throws InterruptedException, TpPoolCreateErrorException {
         //池化实例
-        ConnectionPool connectionPool =  ConnectionPool.Builder(()->new NettyConnection())
+        ConnectionPool connectionPool = ConnectionPool.Builder(() -> new NettyConnection())
                 .setMaxTotal(2)
                 .setMaxIdle(2)
                 .setMinIdle(0)
@@ -43,15 +43,31 @@ public class InPoolTest {
                     connectionPool.returnConnection(connection);
                     hashCodes.add(connection);
                     countDownLatch.countDown();
-                }catch(Exception e){
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
             });
         }
         countDownLatch.await();
-        System.out.println("instance count:" + hashCodes.size() + "  instance list:" + hashCodes);
 
+        System.out.println("instance count:" + hashCodes.size() + "  instance list:" + hashCodes);
         ConnectionPoolMonitor.traceState(connectionPool);
+
+        System.out.println("--------------------");
+
+        Connection connection = connectionPool.borrowConnection();
+        connectionPool.invalidateConnection(connection);
+        ConnectionPoolMonitor.traceState(connectionPool);
+        ConnectionPoolMonitor.printAll(connectionPool);
+
+        System.out.println("------------------");
+        connectionPool.evictConnection();
+        ConnectionPoolMonitor.printAll(connectionPool);
+
+        System.out.println("------------------");
+        connectionPool.clearPool();
+        ConnectionPoolMonitor.printAll(connectionPool);
+
     }
 
 }

@@ -37,8 +37,14 @@ public class ConnectionPool {
      * @return
      * @throws Exception
      */
-    public Connection borrowConnection() throws Exception {
-        return poolInstance.borrowObject();
+    public Connection borrowConnection() {
+        Connection connection = null;
+        try {
+            connection = poolInstance.borrowObject();
+        } catch (Exception e) {
+            log.error("borrow connection from connection pool error", e);
+        }
+        return connection;
     }
 
     /**
@@ -47,5 +53,35 @@ public class ConnectionPool {
      */
     public void returnConnection(Connection connection) {
         poolInstance.returnObject(connection);
+    }
+
+    /**
+     * 作废连接并从连接池移除
+     * @param connection
+     */
+    public void invalidateConnection(Connection connection) {
+        try {
+            poolInstance.invalidateObject(connection);
+        } catch (Exception e) {
+            log.error("invalidate connection from connection pool error", e);
+        }
+    }
+
+    /**
+     * 扫描连接池，将无效连接驱逐
+     */
+    public void evictConnection() {
+        try {
+            poolInstance.evict();
+        } catch (Exception e) {
+            log.error("evict connection from connection pool error", e);
+        }
+    }
+
+    /**
+     * 清空连接池
+     */
+    public void clearPool(){
+        poolInstance.clear();
     }
 }
