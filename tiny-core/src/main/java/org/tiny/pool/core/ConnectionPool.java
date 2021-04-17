@@ -21,7 +21,7 @@ public class ConnectionPool {
     }
 
     //连接池实例
-    private GenericObjectPool<Connection> poolInstance;
+    protected GenericObjectPool<Connection> poolInstance;
 
     /**
      * 连接池构建

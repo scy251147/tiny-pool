@@ -4,6 +4,8 @@ import org.junit.jupiter.api.Test;
 import org.tiny.pool.core.ConnectionPool;
 import org.tiny.pool.core.Connection;
 import org.tiny.pool.core.ConnectionPoolConfig;
+import org.tiny.pool.core.ConnectionPoolMonitor;
+import org.tiny.pool.core.exception.TpPoolCreateErrorException;
 import org.tiny.pool.test.biz.NettyConnection;
 import java.util.HashSet;
 import java.util.Set;
@@ -21,7 +23,7 @@ public class InPoolTest {
     private static ThreadPoolExecutor executor = (ThreadPoolExecutor) Executors.newFixedThreadPool(4);
 
     @Test
-    public void test1() throws InterruptedException {
+    public void test1() throws InterruptedException, TpPoolCreateErrorException {
         //池化实例
         ConnectionPool connectionPool =  ConnectionPool.Builder(()->new NettyConnection())
                 .setMaxTotal(2)
@@ -49,7 +51,7 @@ public class InPoolTest {
         countDownLatch.await();
         System.out.println("instance count:" + hashCodes.size() + "  instance list:" + hashCodes);
 
-        System.out.println(connectionPool.monitorConnection());
+        ConnectionPoolMonitor.traceState(connectionPool);
     }
 
 }
