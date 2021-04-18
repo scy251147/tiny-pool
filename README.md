@@ -83,6 +83,15 @@ After we created the connection instance, then we can set the config parameters 
 ```
 Lots of parameters here!! Remeber that we can set only part of the parameters, not all required.
 
+After the  initialization of the connection pool, then we can borrow connection if need and return connection if complete the request.
+
+```java
+//从连接池中拿实例
+IConnection connection = connectionPool.borrowConnection();
+//将实例归还连接池
+connectionPool.returnConnection(connection);
+```
+
 ### Monitor of the pool 
 I provide the ConnectionPoolMonitor class to monitor the pool, you can get the ```GenericObjectPool<IConnection> ``` instance to check what you want.
 
